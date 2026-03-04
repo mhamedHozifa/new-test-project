@@ -3,5 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('admin-products-index');
+    return view('/admin_LOGIN/adminLogin');
 });
+
