@@ -23,7 +23,7 @@
         @endif
 
         {{-- Login form --}}
-        <form {{-- method="POST" action="{{ route('/admin_LOGIN/adminLogin') }} --}}">
+        <form method="POST" action="{{ route('admin.login.store') }}">
             @csrf
 
             <div class="form-group">
