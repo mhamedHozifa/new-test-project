@@ -38,7 +38,7 @@ class AdminLogin extends Controller
         }
 
         // 4. Redirect to the admin dashboard (or intended URL)
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('dashboard');
     }
     
 //Destroy an authenticated session (logout).

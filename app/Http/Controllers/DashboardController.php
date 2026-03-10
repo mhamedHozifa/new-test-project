@@ -8,6 +8,6 @@ class DashboardController extends Controller
 {
     public function create()
     {
-        return view('dashboard'); 
+        return view('/admin_CRUD/adminCRUD'); 
     }
 }
