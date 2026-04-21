@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory; // <-- أضف هذا السطر
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory; // <-- أضف هذا السطر داخل الكلاس
+    use HasFactory;
 
     protected $fillable = [
         'name',
@@ -16,8 +16,14 @@ class Product extends Model
         'stock',
         'category_id',
         'image',
-        'is_featured'
+        'is_featured',
     ];
+
+    protected $casts = [
+        'is_featured' => 'boolean',
+        'price' => 'decimal:2',
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);

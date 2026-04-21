@@ -5,28 +5,35 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class AdminLoginController extends Controller
 {
-    // Display the admin login view.
     public function create()
     {
-        return view('/admin/login'); 
+        return view('admin.login');
     }
 
-    // Handle an incoming admin authentication request.
     public function store(Request $request)
     {
-         $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('admin/products');
+
+            if (!Auth::user()?->isAdmin()) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'Only admins can access the admin panel.',
+                ])->onlyInput('email');
+            }
+
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors([
@@ -39,11 +46,6 @@ class AdminLoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/admin/login');
-    }
-
-    public function createWelcome()
-    {
-        return view('/welcome'); 
+        return redirect()->route('admin.login.form');
     }
 }
